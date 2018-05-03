@@ -9,4 +9,4 @@ const
 app.use(express.static(path.join(__dirname, '..', '/client')))
 require('./socket')(server)
 
-server.listen(8080)
+server.listen(8000)

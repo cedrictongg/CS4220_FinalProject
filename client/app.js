@@ -1,12 +1,7 @@
 const resultsComponent = {
   //TODO: WORK ON THIS
-  template: `<div>
-              <h1>please work</h1>
-              <p v-for='results in searchResults'>
-                <span>{{results.name}}</span>
-              </p>
-            </div>`,
-  props: ['searchResults']
+  template: `<span>{{results}}</span>`,
+  props: ['results']
 }
 
 const socket = io()
@@ -15,7 +10,7 @@ const app = new Vue({
   data: {
     cuisine: '',
     location: '',
-    searchResults: []
+    results: []
   },
   methods: {
     searchFoods: function() {
@@ -34,9 +29,8 @@ socket.on('successful-search', terms => {
   // console.log(terms)
   // app.searchResults.push(terms)
   // console.log(app.searchResults)
-  // for (results in terms) {
-  //   console.log(results)
-  //   app.searchResults.push(results)
-  // }
-  // console.log(app.searchResults)
+  terms.forEach(items => {
+    app.results.push(items)
+  })
+  console.log(app.results)
 })
