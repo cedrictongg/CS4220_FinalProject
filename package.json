@@ -1,0 +1,32 @@
+{
+  "name": "cs4220_finalproject",
+  "version": "1.0.0",
+  "description": "Using Vue.js and Yelp API together",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedrictongg/CS4220_FinalProject.git"
+  },
+  "author": "Cedric Tong, Kevin Tong, Daniel Kale, Maurice Mejia, Christopher Ly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cedrictongg/CS4220_FinalProject/issues"
+  },
+  "homepage": "https://github.com/cedrictongg/CS4220_FinalProject#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "moment": "^2.22.1",
+    "path": "^0.12.7",
+    "socket.io": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0"
+  }
+}
