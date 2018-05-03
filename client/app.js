@@ -1,6 +1,22 @@
 const resultsComponent = {
   // TODO: WORK ON THIS
-  template: '<span>{{ results }}</span>',
+  template: `
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="restaurant in results">
+        <div class="card" style="margin-top: 20px;">
+          <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
+          <div class="card-block">
+            <h4 class="card-title text-center">{{restaurant.name}}</h4>
+            <p class="card-text text-center">{{restaurant.rating}} Stars</p>
+            <center><button v-on:click="" class="btn btn-primary" type="submit">
+              Reviews
+            </button><center>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>`,
   props: ['results']
 };
 
@@ -11,6 +27,8 @@ const app = new Vue({
     cuisine: '',
     location: '',
     results: [],
+    selected: [],
+    history: [],
   },
   methods: {
     searchFoods() {
@@ -25,11 +43,6 @@ const app = new Vue({
 });
 
 socket.on('successful-search', (terms) => {
-  // console.log(terms)
-  // app.searchResults.push(terms)
-  // console.log(app.searchResults)
-  terms.forEach((items) => {
-    app.results.push(items);
-  });
-  console.log(app.results);
+  app.results = terms
+  console.log(app.results)
 });

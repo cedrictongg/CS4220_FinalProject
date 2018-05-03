@@ -11,6 +11,7 @@ module.exports = (server) => {
       const searchTerms = {
         cuisine: terms.cuisine,
         location: terms.location,
+        limit: 10,
         time: moment(new Date()).format('h:mm a')
       };
 
@@ -21,7 +22,8 @@ module.exports = (server) => {
         },
         params: {
           location: terms.location,
-          term: terms.cuisine
+          term: terms.cuisine,
+          limit:10
         }
       })
         .then((response) => {
