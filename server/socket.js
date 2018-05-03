@@ -7,6 +7,7 @@ module.exports = (server) => {
   const searches = [];
 
   io.on('connection', (socket) => {
+
     socket.on('search-foods', (terms) => {
       const searchTerms = {
         cuisine: terms.cuisine,
@@ -15,7 +16,7 @@ module.exports = (server) => {
         time: moment(new Date()).format('h:mm a')
       };
 
-      axios.get(config.url, {
+      axios.get(config.url_search, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           Authorization: `Bearer ${config.api_key}`
@@ -26,16 +27,36 @@ module.exports = (server) => {
           limit:10
         }
       })
-        .then((response) => {
-          console.log(response.data.businesses);
-          const businessData = response.data.businesses;
-          io.emit('successful-search', businessData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      .then((response) => {
+        //console.log(response.data.businesses);
+        const businessData = response.data.businesses;
+        io.emit('successful-search', businessData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
       searches.push(searchTerms);
       // io.emit('successful-search', searchTerms)
     });
+
+//not working atm
+    // socket.on('search-reviews', (id) =>{
+    //   axios.get(config.url+"/"+id+"/reviews", {
+    //     headers: {
+    //       'X-Requested-With': 'XMLHttpRequest',
+    //       Authorization: `Bearer ${config.api_key}`
+    //     }
+    //   })
+    //   .then((response) =>{
+    //     console.log("reviews!")
+    //     console.log(response)
+    //     const reviewData = response
+    //     io.emit('successful-reviews', reviewData)
+    //   })
+    //   .catch((error) =>{
+    //     console.error(error)
+    //   })
+    // })
+
   });
 };

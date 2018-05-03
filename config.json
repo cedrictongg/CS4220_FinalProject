@@ -1,4 +1,5 @@
 {
-  "api_key": "{YELP API KEY HERE}",
-  "url": "https://api.yelp.com/v3/businesses/search"
+  "api_key": "WpcMCAU1DUhy990_U752x0qKpE6v6i9WQSPMgC2n3GnpUrgsP9xQ2GpmzOf3VXddSVUPKHPi-Z_wewgWimmR3VPTexaRYc5Msp1qKiTOfBCcS2V_cyipn_-fJh_qWnYx",
+  "url_search": "https://api.yelp.com/v3/businesses/search",
+  "url": "https://api.yelp.com/v3/businesses/"
 }
