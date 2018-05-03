@@ -1,12 +1,10 @@
-const
-  express = require('express'),
-  path = require('path')
+const express = require('express');
+const path = require('path');
 
-const
-  app = express(),
-  server = require('http').Server(app)
+const app = express();
+const server = require('http').Server(app);
 
-app.use(express.static(path.join(__dirname, '..', '/client')))
-require('./socket')(server)
+app.use(express.static(path.join(__dirname, '..', '/client')));
+require('./socket')(server);
 
-server.listen(8000)
+server.listen(8000);
