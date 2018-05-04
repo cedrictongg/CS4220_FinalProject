@@ -10,18 +10,32 @@ const resultsComponent = {
             <p class="card-title text-center">{{restaurant.name}}</p>
             <center>
               <img :src="'/rating/' + restaurant.rating +'.png'" width="90%"><br>
-            </center></div><div class="card-body center-block"><center>
-              <button v-on:click="" class="btn btn-primary" type="submit">
-                Reviews
-              </button>
+            </center>
+          </div>
+          <div class="card-body center-block">
+            <center>
+              <span>{{restaurant.location.address1}}, {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}}</span>
+              <span>{{restaurant.phone}}</span>
+              <p>Reviews: {{restaurant.review_count}}</p>
+              <p>{{restaurant.price}}
+                <span v-for="category in restaurant.categories">
+                  - {{category.title}}
+                </span>
+              </p>
+              <button v-on:click="" class="btn btn-primary" type="submit">Reviews</button>
             </center>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
   </div>`,
   props: ['results']
 };
+
+const reviewsComponent = {
+  template: ``,
+  props:['reviews']
+}
 
 const socket = io();
 const app = new Vue({
@@ -32,20 +46,32 @@ const app = new Vue({
     results: [],
     selected: [],
     history: [],
+    reviews: []
   },
   methods: {
     searchFoods() {
       if (!this.location) { return; }
-
-      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location });
+      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location })
+    },
+    //
+    searchReviews(){
+      if (this.results.length == 0) {return}
+      console.log('running searchReviews')
+      socket.emit('search-reviews', this.restaurant.id)
     }
   },
   components: {
-    'results-component': resultsComponent
+    'results-component': resultsComponent,
+    'reviews-component': reviewsComponent
   }
 });
 
 socket.on('successful-search', (terms) => {
   app.results = terms
-  console.log(app.results)
+  //console.log(app.results)
+  console.log("business search finished!")
 });
+
+socket.on('successful-reviews', (reviewData) =>{
+  console.log('REVIEW DATA: ' + reviewData)
+})
