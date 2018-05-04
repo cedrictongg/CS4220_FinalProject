@@ -58,34 +58,34 @@ module.exports = (server) => {
     //   })
     // })
 
-    socket.on('search-reviews', (id) =>{
-      const reviewTerms = {
-        id: id.id,
-        limit:5
-        time: moment(new Date()).format('h:mm a')
-      };
+    // socket.on('search-reviews', (restaurant) =>{
+    //   const reviewTerms = {
+    //     id: restaurant.id,
+    //     limit:5
+    //     time: moment(new Date()).format('h:mm a')
+    //   };
 
-      axios.get(`${config.url}/${id}/reviews` , {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`
-        },
-        params: {
-          location: terms.location,
-          term: terms.cuisine,
-          limit:10
-        }
-      })
-      .then((response) =>{
-        console.log("reviews!")
-        console.log(response)
-        const reviewData = response
-        io.emit('successful-reviews', reviewData)
-      })
-      .catch((error) =>{
-        console.error(error)
-      })
-    });
+    //   axios.get(`${config.url}/${restaurant.id}/reviews` , {
+    //     headers: {
+    //       'X-Requested-With': 'XMLHttpRequest',
+    //       Authorization: `Bearer ${config.api_key}`
+    //     },
+    //     params: {
+    //       location: terms.location,
+    //       term: terms.cuisine,
+    //       limit:5
+    //     }
+    //   })
+    //   .then((response) =>{
+    //     console.log("reviews!")
+    //     console.log(response)
+    //     const reviewData = response
+    //     io.emit('successful-reviews', reviewData)
+    //   })
+    //   .catch((error) =>{
+    //     console.error(error)
+    //   })
+    // });
 
   });
 };

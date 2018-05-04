@@ -22,14 +22,21 @@ const resultsComponent = {
                   - {{category.title}}
                 </span>
               </p>
-              <button v-on:click="" class="btn btn-primary" type="submit">Reviews</button>
+              <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
             </center>
           </div>
         </div>
       </div>
     </div>
   </div>`,
-  props: ['results']
+  props: ['results'],
+  methods: {
+    searchReviews(restaurant){
+      // if (this.results.length == 0) {return}
+      console.log('running searchReviews')
+      socket.emit('search-reviews', restaurant)
+    },
+  },
 };
 
 const reviewsComponent = {
@@ -53,12 +60,11 @@ const app = new Vue({
       if (!this.location) { return; }
       socket.emit('search-foods', { cuisine: this.cuisine, location: this.location })
     },
-    //
     searchReviews(){
-      if (this.results.length == 0) {return}
+      // if (this.results.length == 0) {return}
       console.log('running searchReviews')
-      socket.emit('search-reviews', this.restaurant.id)
-    }
+      //socket.emit('search-', this.restaurant.id)
+    },
   },
   components: {
     'results-component': resultsComponent,
