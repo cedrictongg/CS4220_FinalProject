@@ -41,7 +41,13 @@ const resultsComponent = {
 };
 
 const reviewsComponent = {
-  template: ``,
+  template: `
+  <div class="container">
+    <div class="jumbotron" v-for="review in reviews" style="margin-bottom:10px;">
+      <p>{{review.text}}</p>
+    </div>
+  </div>
+  `,
   props:['reviews']
 }
 
@@ -76,10 +82,15 @@ const app = new Vue({
 
 socket.on('successful-search', (terms) => {
   app.results = terms
+  app.reviews = []
   //console.log(app.results)
   console.log("business search finished!")
 });
 
 socket.on('successful-reviews', (reviewData) =>{
-  console.log('REVIEW DATA: ' + reviewData)
+  app.reviews = reviewData
+  app.results = []
+  reviewData.forEach(review =>{
+    console.log('REVIEW DATA: ' + review.text)    
+  })
 })

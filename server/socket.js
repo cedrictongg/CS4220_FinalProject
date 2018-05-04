@@ -39,7 +39,7 @@ module.exports = (server) => {
       // io.emit('successful-search', searchTerms)
     });
 
-//not working atm
+    
     socket.on('search-reviews', (id) =>{
       console.log(`${config.url}${id}/reviews`)
 
