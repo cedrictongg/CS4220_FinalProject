@@ -29,7 +29,7 @@
 <body class='container'>
 <div id='yelp-search'>
   <div class='card mb-3'>
-    <img class='card-img-top' src='./title.png'/>
+    <img class='card-img-top' src='title.png'/>
   </div>
   <div class='mx-auto'>
     <div class='input-group-prepend mb-3'>
@@ -37,12 +37,12 @@
              placeholder='Click here to search for your next cuisine!' maxlength='89' size='60'/>
       <input v-model='location' class='form-control' type='text'
              placeholder='Enter your location here' maxlength="89" size='30'/>
-      <button v-on:click='searchFoods' :disabled='!location' class='btn btn-outline-secondary'
+      <button v-on:click="searchFoods" :disabled="!location" class='btn btn-outline-secondary'
               type='submit'>Search
       </button>
     </div>
   </div>
-  <div v-show='results.length'>
+  <div v-show="results.length">
     <results-component v-bind:results='results'></results-component>
   </div>
 
