@@ -15,7 +15,7 @@
   <body class='container'>
     <div id='yelp-search'>
       <div class='card mb-3'>
-        <!--<img class='card-img-top' src='./title.png'/>-->
+        <img class='card-img-top' src='./title.png'/>
       </div>
         <div class='mx-auto'>
           <div class='input-group-prepend mb-3'>
@@ -29,7 +29,7 @@
         </div>
 
         <div v-show='reviews.length'>
-          <reviews-component v-bind:reviews='reviews'></reviews-component>
+          <reviews-component v-bind:reviews='reviews' v-bind:selected='selected'></reviews-component>
         </div>
     </div>
 

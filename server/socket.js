@@ -41,7 +41,6 @@ module.exports = (server) => {
 
     
     socket.on('search-reviews', (id) =>{
-      console.log(`${config.url}${id}/reviews`)
 
       axios.get(`${config.url}${id}/reviews`, {
         headers: {
@@ -58,6 +57,35 @@ module.exports = (server) => {
         console.error(error)
       })
     })
+
+    // socket.on('search-reviews', (restaurant) =>{
+    //   const reviewTerms = {
+    //     id: restaurant.id,
+    //     limit:5
+    //     time: moment(new Date()).format('h:mm a')
+    //   };
+
+    //   axios.get(`${config.url}/${restaurant.id}/reviews` , {
+    //     headers: {
+    //       'X-Requested-With': 'XMLHttpRequest',
+    //       Authorization: `Bearer ${config.api_key}`
+    //     },
+    //     params: {
+    //       location: terms.location,
+    //       term: terms.cuisine,
+    //       limit:5
+    //     }
+    //   })
+    //   .then((response) =>{
+    //     console.log("reviews!")
+    //     console.log(response)
+    //     const reviewData = response
+    //     io.emit('successful-reviews', reviewData)
+    //   })
+    //   .catch((error) =>{
+    //     console.error(error)
+    //   })
+    // });
 
   });
 };

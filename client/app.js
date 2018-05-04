@@ -14,6 +14,7 @@ const resultsComponent = {
           </div>
           <div class="card-body center-block">
             <center>
+            <details>
               <span>{{restaurant.location.address1}}, {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}}</span>
               <span>{{restaurant.phone}}</span>
               <p>Reviews: {{restaurant.review_count}}</p>
@@ -23,6 +24,7 @@ const resultsComponent = {
                 </span>
               </p>
               <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
+              </details>
             </center>
           </div>
         </div>
@@ -43,12 +45,23 @@ const resultsComponent = {
 const reviewsComponent = {
   template: `
   <div class="container">
-    <div class="jumbotron" v-for="review in reviews" style="margin-bottom:10px;">
-      <p>{{review.text}}</p>
+    <div class="jumbotron">
+    <center>
+     <img class="rounded" :src=selected.image_url height="300px" width="300px">
+     <h2>{{selected.name}}</h2>
+     <h5>{{selected.location.address1}}</h4>
+     <h5>{{selected.location.city}}, {{selected.location.state}} {{selected.location.zip_code}}</br> {{selected.phone}} </h4>
+     <h6>Price Range: {{selected.price}}</h6>
+    </center>
+    </div>
+    <div class="jumbotron" style="margin-bottom:2px;">
+      <ul>
+        <li v-for="review in reviews">{{review.text}}</li>
+      </ul>
     </div>
   </div>
   `,
-  props:['reviews']
+  props:['reviews','selected']
 }
 
 const socket = io();
@@ -69,9 +82,9 @@ const app = new Vue({
     },
     searchReviews(restaurant){
       // if (this.results.length == 0) {return}
-      selected  = restaurant 
-      console.log(`running search on ${selected.name}`)
-      socket.emit('search-reviews', selected.id)
+      app.selected  = restaurant 
+      console.log(`running search on ${app.selected.name}`)
+      socket.emit('search-reviews', app.selected.id)
     },
   },
   components: {
@@ -90,6 +103,7 @@ socket.on('successful-search', (terms) => {
 socket.on('successful-reviews', (reviewData) =>{
   app.reviews = reviewData
   app.results = []
+  console.log(app.selected)
   reviewData.forEach(review =>{
     console.log('REVIEW DATA: ' + review.text)    
   })
