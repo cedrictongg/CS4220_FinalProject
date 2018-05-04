@@ -22,6 +22,7 @@ const resultsComponent = {
           </div>
             </details>
         </div>
+        </details>
       </div>
     </div>
   </div>`,
