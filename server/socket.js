@@ -40,23 +40,24 @@ module.exports = (server) => {
     });
 
 //not working atm
-    // socket.on('search-reviews', (id) =>{
-    //   axios.get(config.url+"/"+id+"/reviews", {
-    //     headers: {
-    //       'X-Requested-With': 'XMLHttpRequest',
-    //       Authorization: `Bearer ${config.api_key}`
-    //     }
-    //   })
-    //   .then((response) =>{
-    //     console.log("reviews!")
-    //     console.log(response)
-    //     const reviewData = response
-    //     io.emit('successful-reviews', reviewData)
-    //   })
-    //   .catch((error) =>{
-    //     console.error(error)
-    //   })
-    // })
+    socket.on('search-reviews', (id) =>{
+      console.log(`${config.url}${id}/reviews`)
+
+      axios.get(`${config.url}${id}/reviews`, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${config.api_key}`
+        }
+      })
+      .then((response) =>{
+        console.log("reviews!")
+        const reviewData = response.data.reviews
+        io.emit('successful-reviews', reviewData)
+      })
+      .catch((error) =>{
+        console.error(error)
+      })
+    })
 
   });
 };
