@@ -60,6 +60,16 @@ const reviewsComponent = {
   props:['reviews','selected']
 }
 
+const historyComponent = {
+  template: `<div class='nav flex-lg-column flex-row'>
+               <ul class='list-unstyled' v-for='searches in history'>
+                 <li>{{searches.cuisine}} in {{searches.location}} at {{searches.time}}</li>
+               </ul>
+             </div>
+            `,
+  props: ['history']
+}
+
 const socket = io();
 const app = new Vue({
   el: '#yelp-search',
@@ -77,15 +87,15 @@ const app = new Vue({
       socket.emit('search-foods', { cuisine: this.cuisine, location: this.location })
     },
     searchReviews(restaurant){
-      // if (this.results.length == 0) {return}
-      app.selected  = restaurant 
+      app.selected = restaurant
       console.log(`running search on ${app.selected.name}`)
       socket.emit('search-reviews', app.selected.id)
     },
   },
   components: {
     'results-component': resultsComponent,
-    'reviews-component': reviewsComponent
+    'reviews-component': reviewsComponent,
+    'history-component': historyComponent
   }
 });
 
@@ -101,6 +111,13 @@ socket.on('successful-reviews', (reviewData) =>{
   app.results = []
   console.log(app.selected)
   reviewData.forEach(review =>{
-    console.log('REVIEW DATA: ' + review.text)    
+    console.log('REVIEW DATA: ' + review.text)
   })
+})
+
+socket.on('search-history', searches => {
+  searches.forEach(items => {
+    app.history.push(items)
+  })
+  console.log(app.history)
 })
