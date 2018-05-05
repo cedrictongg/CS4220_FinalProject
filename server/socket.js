@@ -16,8 +16,19 @@ module.exports = (server) => {
         time: moment(new Date()).format('h:mm a')
       };
 
-      searches.push(searchTerms);
-      io.emit('search-history', searches)
+      if (searches.length > 0) {
+        searches.forEach(item => {
+          if (item.cuisine.toLowerCase() === terms.cuisine.toLowerCase()) {
+            console.log('failed')
+          } else {
+            searches.push(searchTerms)
+            io.emit('search-history', searches)
+          }
+        })
+      } else {
+        searches.push(searchTerms)
+        io.emit('search-history', searches)
+      }
 
       axios.get(config.url_search, {
         headers: {
@@ -27,7 +38,7 @@ module.exports = (server) => {
         params: {
           location: terms.location,
           term: terms.cuisine,
-          limit:10
+          limit: 10
         }
       })
       .then((response) => {
@@ -41,7 +52,6 @@ module.exports = (server) => {
 
 
     socket.on('search-reviews', (id) =>{
-
       axios.get(`${config.url}${id}/reviews`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -56,6 +66,27 @@ module.exports = (server) => {
       .catch((error) =>{
         console.error(error)
       })
+    })
+
+    socket.on('redo-search', redo => {
+      axios.get(config.url_search, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${config.api_key}`
+        },
+        params: {
+          location: redo.location,
+          term: redo.cuisine,
+          limit: 10
+        }
+      })
+      .then((response) => {
+        const businessData = formatResultsList(response.data.businesses)
+        io.emit('successful-search', businessData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     })
 
   });

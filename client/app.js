@@ -63,11 +63,18 @@ const reviewsComponent = {
 const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
                <ul class='list-unstyled' v-for='searches in history'>
-                 <li>{{searches.cuisine}} in {{searches.location}} at {{searches.time}}</li>
+                 <li>
+                   <button class='btn btn-link' v-on:click='returnSearch(searches)'>{{searches.cuisine}} in {{searches.location}} at {{searches.time}}</button>
+                 </li>
                </ul>
              </div>
             `,
-  props: ['history']
+  props: ['history'],
+  methods: {
+    returnSearch(redo) {
+      socket.emit('redo-search', { cuisine: redo.cuisine, location: redo.location})
+    }
+  }
 }
 
 const socket = io();
@@ -90,7 +97,7 @@ const app = new Vue({
       app.selected = restaurant
       console.log(`running search on ${app.selected.name}`)
       socket.emit('search-reviews', app.selected.id)
-    },
+    }
   },
   components: {
     'results-component': resultsComponent,
@@ -117,7 +124,9 @@ socket.on('successful-reviews', (reviewData) =>{
 
 socket.on('search-history', searches => {
   searches.forEach(items => {
-    app.history.push(items)
+    if (!app.history.includes(items)) {
+      app.history.push(items)
+    }
   })
   console.log(app.history)
 })
