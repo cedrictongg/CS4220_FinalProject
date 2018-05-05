@@ -6,23 +6,28 @@ const resultsComponent = {
         <div class="card" style="margin-top: 20px;">
           <div class="card-body">
             <p class="card-title text-center">{{restaurant.name}}</p>
+            <p><strong>{{ restaurant.distance }}</strong></p>
           </div>
           <div class="card-body center-block">
             <details>
               <summary>Details</summary>
               <br/>
-          <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
-            <p class="text-center">{{restaurant.distance}}</p>
-            <img :src=restaurant.rating_url width="90%"><br>
+            <div>
+              <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
+              <br/>
+            </div>
+            <br/>
+            <div><img :src=restaurant.rating_url width="90%"></div>
+            <br/>
             <div><strong>{{ restaurant.location }}</strong></div>
             <div><strong>{{ restaurant.phone }}</strong></div>
-            <p><strong>Reviews: {{ restaurant.review_count }}</strong></p>
-            <p><strong>{{ restaurant.categories }}</strong></p>
+            <div><strong>Reviews: {{ restaurant.review_count }}</strong></div>
+            <br/>
+            <div><strong>{{ restaurant.categories }}</strong></div>
             <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
           </div>
             </details>
         </div>
-        </details>
       </div>
     </div>
   </div>`,

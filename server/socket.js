@@ -1,7 +1,7 @@
 module.exports = (server) => {
   const io = require('socket.io')(server);
   const moment = require('moment');
-  const config = require('../config');
+  const config = require('./config');
   const axios = require('axios');
 
   const searches = [];
