@@ -12,25 +12,34 @@
       }
     </style>
   </head>
-  <body class='container'>
+  <body class='container-fluid'>
     <div id='yelp-search'>
-      <div class='card mb-3'>
-        <img class='card-img-top' src='./title.png'/>
-      </div>
-        <div class='mx-auto'>
-          <div class='input-group-prepend mb-3'>
-            <input v-model='cuisine' class='form-control' type='text' placeholder='Click here to search for your next cuisine!' maxlength='89' size='60'/>
-            <input v-model='location' class='form-control' type='text' placeholder='Enter your location here' maxlength="89" size='30' />
-            <button v-on:click='searchFoods' :disabled='!location' class='btn btn-outline-secondary' type='submit'>Search</button>
+      <div class='row'>
+        <div class='col-sm-2 col-md-2'>
+          <h3>Search History</h3>
+          <div v-show='history.length'>
+            <history-component v-bind:history='history'></history-component>
           </div>
         </div>
-        <div v-show='results.length'>
-          <results-component v-bind:results='results'></results-component>
+        <div class='col'>
+          <div class='card mb-3'>
+            <img class='card-img-top' src='./title.png'/>
+          </div>
+          <div class='mx-auto'>
+            <div class='input-group-prepend mb-3'>
+              <input v-model='cuisine' class='form-control' type='text' placeholder='Click here to search for your next cuisine!' maxlength='89' size='60'/>
+              <input v-model='location' class='form-control' type='text' placeholder='Enter your location here' maxlength="89" size='30' />
+              <button v-on:click='searchFoods' :disabled='!location' class='btn btn-outline-secondary' type='submit'>Search</button>
+            </div>
+          </div>
+          <div v-show='results.length'>
+            <results-component v-bind:results='results'></results-component>
+          </div>
+          <div v-show='reviews.length'>
+            <reviews-component v-bind:reviews='reviews' v-bind:selected='selected'></reviews-component>
+          </div>
         </div>
-
-        <div v-show='reviews.length'>
-          <reviews-component v-bind:reviews='reviews' v-bind:selected='selected'></reviews-component>
-        </div>
+      </div>
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/vue@2.5.15/dist/vue.min.js"></script>

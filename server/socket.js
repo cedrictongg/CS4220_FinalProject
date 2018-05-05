@@ -16,6 +16,9 @@ module.exports = (server) => {
         time: moment(new Date()).format('h:mm a')
       };
 
+      searches.push(searchTerms);
+      io.emit('search-history', searches)
+
       axios.get(config.url_search, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -34,11 +37,9 @@ module.exports = (server) => {
       .catch((error) => {
         console.error(error);
       });
-      searches.push(searchTerms);
-      // io.emit('successful-search', searchTerms)
     });
 
-    
+
     socket.on('search-reviews', (id) =>{
 
       axios.get(`${config.url}${id}/reviews`, {
