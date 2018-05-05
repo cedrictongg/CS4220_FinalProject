@@ -8,21 +8,18 @@ const resultsComponent = {
           <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
           <div class="card-body">
             <p class="card-title text-center">{{restaurant.name}}</p>
+            <p class="text-center">{{restaurant.distance}}</p>
             <center>
-              <img :src="'/rating/' + restaurant.rating +'.png'" width="90%"><br>
+              <img :src=restaurant.rating_url width="90%"><br>
             </center>
           </div>
           <div class="card-body center-block">
             <center>
             <details>
-              <span>{{restaurant.location.address1}}, {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}}</span>
-              <span>{{restaurant.phone}}</span>
+              <p>{{restaurant.location}}</p>
+              <p>{{restaurant.phone}}</p>
               <p>Reviews: {{restaurant.review_count}}</p>
-              <p>{{restaurant.price}}
-                <span v-for="category in restaurant.categories">
-                  - {{category.title}}
-                </span>
-              </p>
+              <p>{{restaurant.categories}}</p>
               <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
               </details>
             </center>
@@ -49,9 +46,8 @@ const reviewsComponent = {
     <center>
      <img class="rounded" :src=selected.image_url height="300px" width="300px">
      <h2>{{selected.name}}</h2>
-     <h5>{{selected.location.address1}}</h4>
-     <h5>{{selected.location.city}}, {{selected.location.state}} {{selected.location.zip_code}}</br> {{selected.phone}} </h4>
-     <h6>Price Range: {{selected.price}}</h6>
+     <h5>{{selected.location}}</h4>
+     <h6>{{selected.categories}}</h6>
     </center>
     </div>
     <div class="jumbotron" style="margin-bottom:2px;">
