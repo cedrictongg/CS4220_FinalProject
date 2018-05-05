@@ -1,39 +1,36 @@
 const resultsComponent = {
-  // TODO: WORK ON THIS
   template: `
-  <div class="container">
+  <div class="container text-center">
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="restaurant in results">
         <div class="card" style="margin-top: 20px;">
-          <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
           <div class="card-body">
             <p class="card-title text-center">{{restaurant.name}}</p>
-            <p class="text-center">{{restaurant.distance}}</p>
-            <center>
-              <img :src=restaurant.rating_url width="90%"><br>
-            </center>
           </div>
           <div class="card-body center-block">
-            <center>
             <details>
-              <p>{{restaurant.location}}</p>
-              <p>{{restaurant.phone}}</p>
-              <p>Reviews: {{restaurant.review_count}}</p>
-              <p>{{restaurant.categories}}</p>
-              <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
-              </details>
-            </center>
+              <summary>Details</summary>
+              <br/>
+          <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
+            <p class="text-center">{{restaurant.distance}}</p>
+            <img :src=restaurant.rating_url width="90%"><br>
+            <div><strong>{{ restaurant.location }}</strong></div>
+            <div><strong>{{ restaurant.phone }}</strong></div>
+            <p><strong>Reviews: {{ restaurant.review_count }}</strong></p>
+            <p><strong>{{ restaurant.categories }}</strong></p>
+            <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
           </div>
+            </details>
         </div>
       </div>
     </div>
   </div>`,
   props: ['results'],
   methods: {
-    searchReviews(restaurant){
+    searchReviews(restaurant) {
       // if (this.results.length == 0) {return}
-      console.log('running searchReviews')
-      this.$parent.searchReviews(restaurant)
+      console.log('running searchReviews');
+      this.$parent.searchReviews(restaurant);
       // socket.emit('search-reviews', restaurant)
     },
   },
@@ -41,14 +38,12 @@ const resultsComponent = {
 
 const reviewsComponent = {
   template: `
-  <div class="container">
+  <div class="container text-center">
     <div class="jumbotron">
-    <center>
      <img class="rounded" :src=selected.image_url height="300px" width="300px">
      <h2>{{selected.name}}</h2>
      <h5>{{selected.location}}</h4>
      <h6>{{selected.categories}}</h6>
-    </center>
     </div>
     <div class="jumbotron" style="margin-bottom:2px;">
       <ul>
@@ -57,8 +52,8 @@ const reviewsComponent = {
     </div>
   </div>
   `,
-  props:['reviews','selected']
-}
+  props: ['reviews', 'selected']
+};
 
 const socket = io();
 const app = new Vue({
@@ -73,14 +68,16 @@ const app = new Vue({
   },
   methods: {
     searchFoods() {
-      if (!this.location) { return; }
-      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location })
+      if (!this.location) {
+        return;
+      }
+      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location });
     },
-    searchReviews(restaurant){
+    searchReviews(restaurant) {
       // if (this.results.length == 0) {return}
-      app.selected  = restaurant 
-      console.log(`running search on ${app.selected.name}`)
-      socket.emit('search-reviews', app.selected.id)
+      app.selected = restaurant;
+      console.log(`running search on ${app.selected.name}`);
+      socket.emit('search-reviews', app.selected.id);
     },
   },
   components: {
@@ -90,17 +87,17 @@ const app = new Vue({
 });
 
 socket.on('successful-search', (terms) => {
-  app.results = terms
-  app.reviews = []
-  //console.log(app.results)
-  console.log("business search finished!")
+  app.results = terms;
+  app.reviews = [];
+  // console.log(app.results)
+  console.log('business search finished!');
 });
 
-socket.on('successful-reviews', (reviewData) =>{
-  app.reviews = reviewData
-  app.results = []
-  console.log(app.selected)
-  reviewData.forEach(review =>{
-    console.log('REVIEW DATA: ' + review.text)    
-  })
-})
+socket.on('successful-reviews', (reviewData) => {
+  app.reviews = reviewData;
+  app.results = [];
+  console.log(app.selected);
+  reviewData.forEach((review) => {
+    console.log('REVIEW DATA: ' + review.text);
+  });
+});
