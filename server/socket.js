@@ -12,7 +12,7 @@ module.exports = (server) => {
         cuisine: terms.cuisine,
         location: terms.location,
         limit: terms.limit,
-        time: moment(new Date()).format('h:mm a'),
+        time: moment(new Date()).format('H:MM'),
       };
 
       // if (searches.length > 0) {
@@ -38,13 +38,13 @@ module.exports = (server) => {
       axios.get(config.url_search, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`
+          Authorization: `Bearer ${config.api_key}`,
         },
         params: {
           location: terms.location,
           term: terms.cuisine,
           limit: terms.limit,
-        }
+        },
       })
         .then((response) => {
           console.log('emit successful-search');
@@ -58,13 +58,12 @@ module.exports = (server) => {
         });
     });
 
-
     socket.on('search-reviews', (id) => {
       axios.get(`${config.url}${id}/reviews`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`
-        }
+          Authorization: `Bearer ${config.api_key}`,
+        },
       })
         .then((response) => {
           console.log('reviews!');
@@ -85,13 +84,13 @@ module.exports = (server) => {
       axios.get(config.url_search, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`
+          Authorization: `Bearer ${config.api_key}`,
         },
         params: {
           location: redo.location,
           term: redo.cuisine,
-          limit: redo.limit
-        }
+          limit: redo.limit,
+        },
       })
         .then((response) => {
           const businessData = formatResultsList(response.data.businesses);
@@ -115,7 +114,7 @@ const formatResultsList = (results) => {
     phone: '',
     review_count: 0,
     distance: '0 KM',
-    categories: ''
+    categories: '',
   };
 
   const hasUndefined = (...args) => args.some(arg => arg === undefined);
@@ -136,7 +135,7 @@ const formatResultsList = (results) => {
     }
     if (!hasUndefined(
       restaurant.location.address1, restaurant.location.city,
-      restaurant.location.state, restaurant.location.zip_code
+      restaurant.location.state, restaurant.location.zip_code,
     )) {
       result.location = `${restaurant.location.address1}, ${restaurant.location.city}, 
       ${restaurant.location.state}, ${restaurant.location.zip_code}`;

@@ -56,7 +56,7 @@ const reviewsComponent = {
     </div>
   </div>
   `,
-  props: ['reviews', 'selected']
+  props: ['reviews', 'selected'],
 };
 
 const historyComponent = {
@@ -77,10 +77,10 @@ const historyComponent = {
       socket.emit('redo-search', {
         cuisine: redo.cuisine,
         location: redo.location,
-        limit: redo.limit
+        limit: redo.limit,
       });
-    }
-  }
+    },
+  },
 };
 
 const socket = io();
@@ -116,13 +116,13 @@ const app = new Vue({
       app.selected = restaurant;
       console.log(`running search on ${app.selected.name}`);
       socket.emit('search-reviews', app.selected.id);
-    }
+    },
   },
   components: {
     'results-component': resultsComponent,
     'reviews-component': reviewsComponent,
     'history-component': historyComponent,
-  }
+  },
 });
 
 socket.on('successful-search', (terms) => {
