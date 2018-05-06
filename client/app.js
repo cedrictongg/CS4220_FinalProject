@@ -72,7 +72,7 @@ const historyComponent = {
   props: ['history'],
   methods: {
     returnSearch(redo) {
-      socket.emit('redo-search', { cuisine: redo.cuisine, location: redo.location})
+      socket.emit('redo-search', { cuisine: redo.cuisine, location: redo.location, limit: redo.limit})
     }
   }
 }
@@ -83,6 +83,7 @@ const app = new Vue({
   data: {
     cuisine: '',
     location: '',
+    limit : '',
     results: [],
     selected: {},
     history: [],
@@ -91,7 +92,10 @@ const app = new Vue({
   methods: {
     searchFoods() {
       if (!this.location) { return; }
-      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location })
+      console.log('')
+      if(!this.limit)
+        this.limit = 8
+      socket.emit('search-foods', { cuisine: this.cuisine, location: this.location, limit: this.limit })
     },
     searchReviews(restaurant){
       app.selected = restaurant
