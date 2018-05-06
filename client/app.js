@@ -12,21 +12,21 @@ const resultsComponent = {
             <details>
               <summary>Details</summary>
               <br/>
-            <div>
+              <div>
               <img class="card-img-top" :src=restaurant.image_url height="180px" width="245px">
               <br/>
+              </div>
+              <br/>
+              <div><img :src=restaurant.rating_url width="90%"></div>
+              <br/>
+              <div><strong>{{ restaurant.location }}</strong></div>
+              <div><strong>{{ restaurant.phone }}</strong></div>
+              <div><strong>Reviews: {{ restaurant.review_count }}</strong></div>
+              <br/>
+              <div><strong>{{ restaurant.categories }}</strong></div>
+              <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
             </div>
-            <br/>
-            <div><img :src=restaurant.rating_url width="90%"></div>
-            <br/>
-            <div><strong>{{ restaurant.location }}</strong></div>
-            <div><strong>{{ restaurant.phone }}</strong></div>
-            <div><strong>Reviews: {{ restaurant.review_count }}</strong></div>
-            <br/>
-            <div><strong>{{ restaurant.categories }}</strong></div>
-            <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
-          </div>
-            </details>
+          </details>
         </div>
       </div>
     </div>
