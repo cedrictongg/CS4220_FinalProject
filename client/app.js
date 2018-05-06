@@ -123,6 +123,7 @@ socket.on('successful-reviews', (reviewData) =>{
 })
 
 socket.on('search-history', searches => {
+  app.history = []
   searches.forEach(items => {
     if (!app.history.includes(items)) {
       app.history.push(items)
