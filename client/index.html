@@ -31,11 +31,12 @@
               <input v-model='location' class='form-control' type='text' placeholder='Enter your location here' maxlength="89" size='30' />
               <select v-model='limit'>
                 <option disabled-value=""> Please select amount of searches.</option>
-                <option value="4">4</option>
-                <option value="8" selected="selected">8</option>
-                <option value="12">12</option>
-                <option value="16">16</option>
-                <option value="20">20</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
               </select>
               <button v-on:click='searchFoods' :disabled='!location' class='btn btn-outline-secondary' type='submit'>Search</button>
             </div>

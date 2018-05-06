@@ -21,11 +21,13 @@ module.exports = (server) => {
           if (item.cuisine.toLowerCase() === terms.cuisine.toLowerCase()) {
             console.log('failed')
           } else {
+            console.log('run 1')
             searches.push(searchTerms)
             io.emit('search-history', searches)
           }
         })
       } else {
+        console.log('run 2')
         searches.push(searchTerms)
         io.emit('search-history', searches)
       }

@@ -94,7 +94,7 @@ const app = new Vue({
       if (!this.location) { return; }
       console.log('')
       if(!this.limit)
-        this.limit = 8
+        this.limit = 5
       socket.emit('search-foods', { cuisine: this.cuisine, location: this.location, limit: this.limit })
     },
     searchReviews(restaurant){
@@ -133,5 +133,5 @@ socket.on('search-history', searches => {
       app.history.push(items)
     }
   })
-  console.log(app.history)
+  console.log("current history: "+app.history)
 })
