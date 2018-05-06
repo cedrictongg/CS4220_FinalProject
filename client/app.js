@@ -52,7 +52,7 @@ const reviewsComponent = {
     </div>
     <div class="jumbotron" style="margin-bottom:2px;">
       <ul>
-        <li v-for="review in reviews">{{review.text}}</li>
+        <li v-for="review in reviews"><img class="rounded-circle" :src='review.user.image_url' height="75px" width="75px">{{review.text}}</li>
       </ul>
     </div>
   </div>
@@ -87,7 +87,7 @@ const app = new Vue({
     results: [],
     selected: {},
     history: [],
-    reviews: []
+    reviews: [],
   },
   methods: {
     searchFoods() {
@@ -121,7 +121,8 @@ socket.on('successful-reviews', (reviewData) =>{
 
   app.reviews = reviewData
   app.results = []
-  console.log(app.selected)
+  //console.log(app.selected)
+  //console.log(app.phimage)
   reviewData.forEach(review =>{
     console.log('REVIEW DATA: ' + review.text)
   })
