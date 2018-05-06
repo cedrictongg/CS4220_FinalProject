@@ -49,8 +49,13 @@ module.exports = (server) => {
         }
       })
       .then((response) =>{
+
         console.log("reviews!")
         const reviewData = response.data.reviews
+        reviewData.forEach(review =>{
+          if(review.user.image_url == null)
+            review.user.image_url = 'http://via.placeholder.com/75'
+        })
         io.emit('successful-reviews', reviewData)
       })
       .catch((error) =>{
