@@ -16,21 +16,23 @@ module.exports = (server) => {
         time: moment(new Date()).format('h:mm a')
       };
 
-      if (searches.length > 0) {
-        searches.forEach(item => {
-          if (item.cuisine.toLowerCase() === terms.cuisine.toLowerCase()) {
-            console.log('failed')
-          } else {
-            console.log('run 1')
-            searches.push(searchTerms)
-            io.emit('search-history', searches)
-          }
-        })
-      } else {
-        console.log('run 2')
-        searches.push(searchTerms)
-        io.emit('search-history', searches)
-      }
+      // if (searches.length > 0) {
+      //   searches.forEach(item => {
+      //     if (item.cuisine.toLowerCase() === terms.cuisine.toLowerCase()) {
+      //       console.log('failed')
+      //     } else {
+      //       console.log('run 1')
+      //       searches.push(searchTerms)
+      //       console.log("pushing: " + searchTerms.cuisine + " location :" + searchTerms.location + " time:" + searchTerms.time)
+      //       io.emit('search-history', searches)
+      //     }
+      //   })
+      // } else {
+      //   console.log('run 2')
+      //   console.log("pushing: " + searchTerms.cuisine + " location :" + searchTerms.location + " time:" + searchTerms.time)
+      //   searches.push(searchTerms)
+      //   io.emit('search-history', searches)
+      // }
 
       axios.get(config.url_search, {
         headers: {
@@ -44,6 +46,9 @@ module.exports = (server) => {
         }
       })
       .then((response) => {
+        console.log("emit successful-search")
+        searches.push(searchTerms)
+        io.emit('search-history', searches)
         const businessData = formatResultsList(response.data.businesses)
         io.emit('successful-search', businessData);
       })

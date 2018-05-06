@@ -92,7 +92,7 @@ const app = new Vue({
   methods: {
     searchFoods() {
       if (!this.location) { return; }
-      console.log('')
+      console.log('running searchFoods()')
       if(!this.limit)
         this.limit = 5
       socket.emit('search-foods', { cuisine: this.cuisine, location: this.location, limit: this.limit })
@@ -118,6 +118,7 @@ socket.on('successful-search', (terms) => {
 });
 
 socket.on('successful-reviews', (reviewData) =>{
+
   app.reviews = reviewData
   app.results = []
   console.log(app.selected)
