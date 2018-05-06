@@ -54,7 +54,7 @@ module.exports = (server) => {
         const reviewData = response.data.reviews
         reviewData.forEach(review =>{
           if(review.user.image_url == null)
-            review.user.image_url = 'http://via.placeholder.com/75'
+            review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`
         })
         io.emit('successful-reviews', reviewData)
       })

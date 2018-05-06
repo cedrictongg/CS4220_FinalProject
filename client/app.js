@@ -57,9 +57,9 @@ const reviewsComponent = {
     </div>
   </div>
   `,
-  props:['reviews','imageurl','selected']
+  props:['reviews','selected']
 }
-//:src='imageurl+review.user.name'
+
 const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
                <ul class='list-unstyled' v-for='searches in history'>
