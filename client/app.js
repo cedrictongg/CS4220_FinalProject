@@ -80,7 +80,6 @@ const app = new Vue({
     selected: {},
     history: [],
     reviews: [],
-    imageurl: 'http://via.placeholder.com/150x150?text=',
   },
   methods: {
     searchFoods() {
