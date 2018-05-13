@@ -11,5 +11,13 @@ module.exports = () => {
       res.send(json)
     })
   })
+  // /api/reviews/?id=`${id}`
+  router.get('/api/reviews/', (req, res) => {
+    yelp.reviews(req.query)
+    .then(result => {
+      let json = JSON.parse(result)
+      res.send(json)
+    })
+  })
   return router
 }

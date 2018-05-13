@@ -22,27 +22,34 @@ module.exports = (server) => {
       io.emit('search-history', searches)
     });
 
-    socket.on('search-reviews', (id) => {
-      axios.get(`${config.url}${id}/reviews`, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`,
-        },
+    // socket.on('search-reviews', (id) => {
+    //   axios.get(`${config.url}${id}/reviews`, {
+    //     headers: {
+    //       'X-Requested-With': 'XMLHttpRequest',
+    //       Authorization: `Bearer ${config.api_key}`,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       console.log('reviews!');
+    //       const reviewData = response.data.reviews;
+    //       reviewData.forEach((review) => {
+    //         if (review.user.image_url == null) {
+    //           review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`;
+    //         }
+    //       });
+    //       io.emit('successful-reviews', reviewData);
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // });
+
+    socket.on(`search-reviews`, (id) =>{
+      yelp.reviews(id).then(res => {
+        let json = JSON.parse(res)
+        io.emit('successful-reviews')
       })
-        .then((response) => {
-          console.log('reviews!');
-          const reviewData = response.data.reviews;
-          reviewData.forEach((review) => {
-            if (review.user.image_url == null) {
-              review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`;
-            }
-          });
-          io.emit('successful-reviews', reviewData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    })
 
     socket.on('redo-search', (redo) => {
       yelp.search(redo).then(res => {

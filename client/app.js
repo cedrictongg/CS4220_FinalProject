@@ -107,7 +107,7 @@ const app = new Vue({
 
       axios.get(`http://localhost:8080/api/search?term=${this.cuisine}&location=${this.location}&limit=${this.limit}`).then(res => {
         console.log(res.data.businesses)
-        // app.results = res.data
+        app.results = res.data.businesses
         app.reviews = []
       })
 
@@ -120,7 +120,14 @@ const app = new Vue({
     },
     searchReviews(restaurant) {
       app.selected = restaurant;
-      console.log(`running search on ${app.selected.name}`);
+      //console.log(`running search on ${app.selected.name}`);
+      //socket.emit('search-reviews', app.selected.id);
+      //console.log(app.selected.id)
+      axios.get(`http://localhost:8080/api/reviews?id=${app.selected.id}`).then(res => {
+        //console.log(res.data.reviews)
+        app.reviews = res.data.reviews
+        console.log(res.data.reviews)
+      })
       socket.emit('search-reviews', app.selected.id);
     },
   },
@@ -135,10 +142,10 @@ socket.on('successful-reviews', (reviewData) => {
   app.reviews = reviewData;
   app.results = [];
   // console.log(app.selected)
-  // console.log(app.phimage)
-  reviewData.forEach(review => {
-    console.log('REVIEW DATA: ' + review.text);
-  });
+  console.log(reviewData)
+  // reviewData.forEach(review => {
+  //   console.log('REVIEW DATA: ' + review.text);
+  // });
 });
 
 socket.on('search-history', (searches) => {

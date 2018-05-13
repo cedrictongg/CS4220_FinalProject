@@ -21,3 +21,9 @@ exports.search = searchTerms => {
     }
   return fetch(params, 'search')
 }
+
+exports.reviews = (id) => {
+  const params = {};
+  // https://api.yelp.com/v3/businesses/{id}/reviews
+  return fetch(params, `${id}/reviews`);
+};
