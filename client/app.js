@@ -100,17 +100,23 @@ const app = new Vue({
       if (!this.location) {
         return;
       }
-
-      console.log('running searchFoods()');
       if (!this.limit) {
         this.limit = 5;
       }
+      console.log('running searchFoods()');
 
-      socket.emit('search-foods', {
+      axios.get(`http://localhost:8080/api/search?term=${this.cuisine}&location=${this.location}&limit=${this.limit}`).then(res => {
+        console.log(res.data.businesses)
+        // app.results = res.data
+        app.reviews = []
+      })
+
+      params = {
         cuisine: this.cuisine,
         location: this.location,
-        limit: this.limit,
-      });
+        limit: this.limit
+      }
+      socket.emit('search-foods', params)
     },
     searchReviews(restaurant) {
       app.selected = restaurant;
@@ -123,13 +129,6 @@ const app = new Vue({
     'reviews-component': reviewsComponent,
     'history-component': historyComponent,
   },
-});
-
-socket.on('successful-search', terms => {
-  app.results = terms
-  app.reviews = []
-  // console.log(app.results)
-  console.log('business search finished!');
 });
 
 socket.on('successful-reviews', (reviewData) => {

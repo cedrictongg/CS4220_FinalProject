@@ -11,12 +11,12 @@ module.exports = (server) => {
         location: terms.location,
         limit: terms.limit
       };
-
-      yelp.search(searchTerms).then(res => {
-        let json = JSON.parse(res)
-        io.emit('successful-search', formatResultsList(json.businesses))
-        console.log('emit successful-search')
-      })
+      // 
+      // yelp.search(searchTerms).then(res => {
+      //   let json = JSON.parse(res)
+      //   io.emit('successful-search', formatResultsList(json.businesses))
+      //   console.log('emit successful-search')
+      // })
 
       searches.push(searchTerms)
       io.emit('search-history', searches)
