@@ -1,8 +1,6 @@
 module.exports = (server) => {
   const io = require('socket.io')(server);
-  const moment = require('moment');
-  const config = require('../config');
-  const axios = require('axios');
+  const yelp = require('../yelp')
 
   const searches = [];
 
@@ -11,51 +9,17 @@ module.exports = (server) => {
       const searchTerms = {
         cuisine: terms.cuisine,
         location: terms.location,
-        limit: terms.limit,
-        time: moment(new Date()).format('H:MM'),
+        limit: terms.limit
       };
 
-      // if (searches.length > 0) {
-      //   searches.forEach(item => {
-      //     if (item.cuisine.toLowerCase() === terms.cuisine.toLowerCase()) {
-      //       console.log('failed')
-      //     } else {
-      //       console.log('run 1')
-      //       searches.push(searchTerms)
-      //       console.log("pushing: " + searchTerms.cuisine + " location :" +
-      // searchTerms.location + " time:" + searchTerms.time)
-      //       io.emit('search-history', searches)
-      //     }
-      //   })
-      // } else {
-      //   console.log('run 2')
-      //   console.log("pushing: " + searchTerms.cuisine + " location :" +
-      // searchTerms.location + " time:" + searchTerms.time)
-      //   searches.push(searchTerms)
-      //   io.emit('search-history', searches)
-      // }
-
-      axios.get(config.url_search, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`,
-        },
-        params: {
-          location: terms.location,
-          term: terms.cuisine,
-          limit: terms.limit,
-        },
+      yelp.search(searchTerms).then(res => {
+        let json = JSON.parse(res)
+        io.emit('successful-search', formatResultsList(json.businesses))
+        console.log('emit successful-search')
       })
-        .then((response) => {
-          console.log('emit successful-search');
-          searches.push(searchTerms);
-          io.emit('search-history', searches);
-          const businessData = formatResultsList(response.data.businesses);
-          io.emit('successful-search', businessData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+
+      searches.push(searchTerms)
+      io.emit('search-history', searches)
     });
 
     socket.on('search-reviews', (id) => {
@@ -81,25 +45,11 @@ module.exports = (server) => {
     });
 
     socket.on('redo-search', (redo) => {
-      axios.get(config.url_search, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`,
-        },
-        params: {
-          location: redo.location,
-          term: redo.cuisine,
-          limit: redo.limit,
-        },
+      yelp.search(redo).then(res => {
+        let json = JSON.parse(res)
+        io.emit('successful-search', formatResultsList(json.businesses))
       })
-        .then((response) => {
-          const businessData = formatResultsList(response.data.businesses);
-          io.emit('successful-search', businessData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    })
   });
 };
 

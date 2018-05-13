@@ -63,9 +63,9 @@ const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
                <ul class='list-unstyled' v-for='searches in history'>
                  <li>
-                   <button type="button" class='list-group-item list-group-item-action' 
+                   <button type="button" class='list-group-item list-group-item-action'
                    v-on:click='returnSearch(searches)'>
-                   <strong>{{searches.cuisine}} in {{searches.location}} at {{searches.time}}</strong>
+                   <strong>{{searches.cuisine}} in {{searches.location}}</strong>
                    </button>
                  </li>
                </ul>
@@ -125,9 +125,9 @@ const app = new Vue({
   },
 });
 
-socket.on('successful-search', (terms) => {
-  app.results = terms;
-  app.reviews = [];
+socket.on('successful-search', terms => {
+  app.results = terms
+  app.reviews = []
   // console.log(app.results)
   console.log('business search finished!');
 });
@@ -137,7 +137,7 @@ socket.on('successful-reviews', (reviewData) => {
   app.results = [];
   // console.log(app.selected)
   // console.log(app.phimage)
-  reviewData.forEach((review) => {
+  reviewData.forEach(review => {
     console.log('REVIEW DATA: ' + review.text);
   });
 });
