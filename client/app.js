@@ -13,13 +13,16 @@ const resultsComponent = {
             <br/>
             <div><img class="card-img-top" :src=restaurant.image_url height="180px" width="245px"></div>
             <br/>
-            <div><img :src=restaurant.rating_url width="90%"></div>
+            <div><img :src="'/rating/' + restaurant.rating +'.png'" width="90%"></div>
             <br/>
-            <p><strong>{{ restaurant.distance }}</strong></p>
-              <p><strong>{{ restaurant.location }}</strong></p>
+            <p><strong>{{ (restaurant.distance * 0.001).toFixed(2) }} km</strong></p>
+              <div>
+              <span><strong>{{ restaurant.location.address1 }}</strong></span>
+              <br/>
+              <span><strong>{{ restaurant.location.city }}, {{ restaurant.location.state }} {{ restaurant.location.zip_code }}</strong></span>
+              <div/>
               <p><strong>{{ restaurant.phone }}</strong></p>
               <p><strong>Reviews: {{ restaurant.review_count }}</strong></p>
-              <p><strong>{{ restaurant.categories }}</strong></p>
               <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
               </details>
           </div>
@@ -74,13 +77,13 @@ const historyComponent = {
   props: ['history'],
   methods: {
     returnSearch(redo) {
-      axios.get(`http://localhost:8080/api/search?term=${redo.cuisine}&location=${redo.location}&limit=${redo.limit}`).then(res => {
+      axios.get(`http://localhost:8080/api/search?term=${redo.cuisine}&location=${redo.location}&limit=${redo.limit}`).then((res) => {
         socket.emit('redo-search', {
           cuisine: redo.cuisine,
           location: redo.location,
           limit: redo.limit,
         });
-      })
+      });
     },
   },
 };
@@ -108,34 +111,34 @@ const app = new Vue({
       console.log('running searchFoods()');
 
       axios.get(`http://localhost:8080/api/search?term=${this.cuisine}&location=${this.location}&limit=${this.limit}`)
-      .then(res => {
-        console.log(res.data.businesses)
-        app.results = res.data.businesses
-        app.reviews = []
-      })
+        .then((res) => {
+          console.log(res.data.businesses);
+          app.results = res.data.businesses;
+          app.reviews = [];
+        });
 
-      params = {
+      const params = {
         cuisine: this.cuisine,
         location: this.location,
-        limit: this.limit
-      }
-      socket.emit('search-foods', params)
+        limit: this.limit,
+      };
+      socket.emit('search-foods', params);
     },
     searchReviews(restaurant) {
-      app.selected = restaurant
-      console.log(app.selected.id)
+      app.selected = restaurant;
+      console.log(app.selected.id);
       axios.get(`http://localhost:8080/api/reviews?id=${app.selected.id}`)
-      .then(res => {
-        const data = res.data.reviews
-        console.log(data)
-        data.forEach(review => {
-          if (review.user.image_url === null) {
-            review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`
-          }
-        })
-        app.reviews = data
-        app.results = []
-      })
+        .then((res) => {
+          const data = res.data.reviews;
+          console.log(data);
+          data.forEach((review) => {
+            if (review.user.image_url === null) {
+              review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`;
+            }
+          });
+          app.reviews = data;
+          app.results = [];
+        });
     },
   },
   components: {
@@ -155,7 +158,7 @@ socket.on('search-history', (searches) => {
   console.log('current history: ' + app.history);
 });
 
-socket.on('redo-success', res => {
-  console.log(res)
-  app.results = res.data.businesses
-})
+socket.on('redo-success', (res) => {
+  console.log(res);
+  app.results = res.data.businesses;
+});
