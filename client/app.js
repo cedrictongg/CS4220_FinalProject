@@ -133,6 +133,8 @@ const app = new Vue({
             review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`
           }
         })
+        app.reviews = data
+        app.results = []
       })
     },
   },
@@ -141,16 +143,6 @@ const app = new Vue({
     'reviews-component': reviewsComponent,
     'history-component': historyComponent,
   },
-});
-
-socket.on('successful-reviews', (reviewData) => {
-  app.reviews = reviewData;
-  app.results = [];
-  // console.log(app.selected)
-  // console.log(app.phimage)
-  reviewData.forEach(review => {
-    console.log('REVIEW DATA: ' + review.text);
-  });
 });
 
 socket.on('search-history', (searches) => {
