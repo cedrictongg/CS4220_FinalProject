@@ -37,10 +37,8 @@ const resultsComponent = {
   props: ['results'],
   methods: {
     searchReviews(restaurant) {
-      // if (this.results.length == 0) {return}
       console.log('running searchReviews');
       this.$parent.searchReviews(restaurant);
-      // socket.emit('search-reviews', restaurant)
     },
   },
 };
@@ -80,7 +78,7 @@ const reviewsComponent = {
   `,
   props: ['reviews', 'selected'],
 };
-// <li v-for="review in reviews"><img class="rounded-circle" :src='review.user.image_url' height="75px" width="75px">{{review.text}}</li>
+
 const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
                <ul class='list-unstyled' v-for='searches in history.slice().reverse()'>

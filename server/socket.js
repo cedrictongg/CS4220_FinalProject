@@ -1,6 +1,5 @@
 module.exports = (server) => {
   const io = require('socket.io')(server);
-  const yelp = require('../yelp');
 
   const searches = [];
 
@@ -11,13 +10,8 @@ module.exports = (server) => {
         location: terms.location,
         limit: terms.limit,
       };
-
       searches.push(searchTerms);
       io.emit('search-history', searches);
-    });
-
-    socket.on('redo-search', (redo) => {
-      io.emit('successful-search', redo);
     });
   });
 };
