@@ -9,7 +9,7 @@
   "keywords": [
     "yelp"
   ],
-  "author": "Cedric Tong",
+  "author": "Cedric Tong, Kevin Tong, Daniel Kale, Maurice Mejia, Christopher Ly",
   "license": "MIT",
   "dependencies": {
     "request": "^2.85.0",

@@ -21,12 +21,12 @@ const resultsComponent = {
               <br/>
               <span><strong>{{ restaurant.location.city }}, {{ restaurant.location.state }} {{ restaurant.location.zip_code }}</strong></span>
               <div/>
-              <p><strong>{{ restaurant.phone }}</strong></p>
+              <p><strong>{{ restaurant.display_phone }}</strong></p>
               <p><strong>Reviews: {{ restaurant.review_count }}</strong></p>
-              <h6>
+              <p class="h5">
                 <span>{{restaurant.price}}</span>
                 <span v-for="category in restaurant.categories"> - {{category.title}}</span>
-              </h6>
+              </p>
               <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
               </details>
           </div>
@@ -51,13 +51,17 @@ const reviewsComponent = {
         <div class="col-2"><img class="rounded" :src=selected.image_url width="100%"></div>
         <div class="col-10">
           <div class="text-center">
-            <h2>{{selected.name}}</h2>
-            <h5>{{selected.location.address1}} {{selected.location.address2}}<br>
-            {{selected.location.city}}, {{selected.location.state}} {{selected.location.zip_code}}</h5><br>
-            <h6>
+            <p class="h3">{{selected.name}}</p>
+            <p class="h4">{{selected.location.address1}} {{selected.location.address2}}
+            <br/>
+            {{selected.location.city}}, {{selected.location.state}} {{selected.location.zip_code}}
+            <br/>
+            {{ selected.display_phone }}
+            </p>
+            <p class="h5">
               <span>{{selected.price}}</span>
               <span v-for="category in selected.categories"> - {{category.title}}</span>
-            </h6>
+            </p>
           </div>
         </div>
       </div>
@@ -94,10 +98,10 @@ const historyComponent = {
   props: ['history'],
   methods: {
     returnSearch(redo) {
-      axios.get(`http://localhost:8080/api/search?term=${redo.cuisine}&location=${redo.location}&limit=${redo.limit}`).then(res => {
-        app.results = res.data.businesses
-        app.reviews = []
-      })
+      axios.get(`http://localhost:8080/api/search?term=${redo.cuisine}&location=${redo.location}&limit=${redo.limit}`).then((res) => {
+        app.results = res.data.businesses;
+        app.reviews = [];
+      });
     },
   },
 };
