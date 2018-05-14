@@ -1,8 +1,5 @@
 module.exports = (server) => {
   const io = require('socket.io')(server);
-  const moment = require('moment');
-  const config = require('../config');
-  const axios = require('axios');
 
   const searches = [];
 
@@ -11,29 +8,10 @@ module.exports = (server) => {
       const searchTerms = {
         cuisine: terms.cuisine,
         location: terms.location,
-        time: moment(new Date()).format('h:mm a')
+        limit: terms.limit,
       };
-
-      axios.get(config.url, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${config.api_key}`
-        },
-        params: {
-          location: terms.location,
-          term: terms.cuisine
-        }
-      })
-        .then((response) => {
-          console.log(response.data.businesses);
-          const businessData = response.data.businesses;
-          io.emit('successful-search', businessData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
       searches.push(searchTerms);
-      // io.emit('successful-search', searchTerms)
+      io.emit('search-history', searches);
     });
   });
 };

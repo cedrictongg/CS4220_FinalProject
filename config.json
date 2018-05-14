@@ -1,4 +1,0 @@
-{
-  "api_key": "{YELP API KEY HERE}",
-  "url": "https://api.yelp.com/v3/businesses/search"
-}
