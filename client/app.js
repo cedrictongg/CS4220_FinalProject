@@ -23,6 +23,10 @@ const resultsComponent = {
               <div/>
               <p><strong>{{ restaurant.phone }}</strong></p>
               <p><strong>Reviews: {{ restaurant.review_count }}</strong></p>
+              <h6>
+                <span>{{restaurant.price}}</span>
+                <span v-for="category in restaurant.categories"> - {{category.title}}</span>
+              </h6>
               <button v-on:click='searchReviews(restaurant)' class="btn btn-primary" type="submit">Reviews</button>
               </details>
           </div>
@@ -79,7 +83,7 @@ const reviewsComponent = {
 // <li v-for="review in reviews"><img class="rounded-circle" :src='review.user.image_url' height="75px" width="75px">{{review.text}}</li>
 const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
-               <ul class='list-unstyled' v-for='searches in history'>
+               <ul class='list-unstyled' v-for='searches in history.slice().reverse()'>
                  <li>
                    <button type="button" class='list-group-item list-group-item-action'
                    v-on:click='returnSearch(searches)'>
