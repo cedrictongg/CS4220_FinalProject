@@ -45,23 +45,38 @@ const reviewsComponent = {
   template: `
   <div class="container">
     <div class="jumbotron">
-    <div class="text-center">
-     <img class="rounded" :src=selected.image_url height="300px" width="300px">
-     <h2>{{selected.name}}</h2>
-     <h5>{{selected.location}}</h4>
-     <h6>{{selected.categories}}</h6>
+      <div class="row">
+        <div class="col-2"><img class="rounded" :src=selected.image_url width="100%"></div>
+        <div class="col-10">
+          <div class="text-center">
+            <h2>{{selected.name}}</h2>
+            <h5>{{selected.location.address1}} {{selected.location.address2}}<br>
+            {{selected.location.city}}, {{selected.location.state}} {{selected.location.zip_code}}</h5><br>
+            <h6>
+              <span>{{selected.price}}</span>
+              <span v-for="category in selected.categories"> - {{category.title}}</span>
+            </h6>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-    <div class="jumbotron" style="margin-bottom:2px;">
-      <ul>
-        <li v-for="review in reviews"><img class="rounded-circle" :src='review.user.image_url' height="75px" width="75px">{{review.text}}</li>
-      </ul>
+    <div class="jumbotron" style="margin-bottom:15px;" v-for="review in reviews">
+      <div class="row">
+        <div class="col-2"><img class="rounded-circle" :src='review.user.image_url' width="100%"></div>
+        <div class="col-10">
+          <h3>{{review.user.name}}</h3>
+          <h4><strong>{{review.time_created}}</strong></h4>
+          <h4>Rating: {{review.rating}} / 5</h4>
+          <p>{{review.text}}</p>
+          <a :href=review.url>Review Link</a>
+        </div>
+      </div>
     </div>
   </div>
   `,
   props: ['reviews', 'selected'],
 };
-
+// <li v-for="review in reviews"><img class="rounded-circle" :src='review.user.image_url' height="75px" width="75px">{{review.text}}</li>
 const historyComponent = {
   template: `<div class='nav flex-lg-column flex-row'>
                <ul class='list-unstyled' v-for='searches in history'>
@@ -78,7 +93,6 @@ const historyComponent = {
   methods: {
     returnSearch(redo) {
       axios.get(`http://localhost:8080/api/search?term=${redo.cuisine}&location=${redo.location}&limit=${redo.limit}`).then(res => {
-        console.log(res.data.businesses)
         app.results = res.data.businesses
         app.reviews = []
       })
@@ -110,7 +124,6 @@ const app = new Vue({
 
       axios.get(`http://localhost:8080/api/search?term=${this.cuisine}&location=${this.location}&limit=${this.limit}`)
         .then((res) => {
-          console.log(res.data.businesses);
           app.results = res.data.businesses;
           app.reviews = [];
         });
@@ -124,11 +137,9 @@ const app = new Vue({
     },
     searchReviews(restaurant) {
       app.selected = restaurant;
-      console.log(app.selected.id);
       axios.get(`http://localhost:8080/api/reviews?id=${app.selected.id}`)
         .then((res) => {
           const data = res.data.reviews;
-          console.log(data);
           data.forEach((review) => {
             if (review.user.image_url === null) {
               review.user.image_url = `http://via.placeholder.com/75?text=${review.user.name}`;
@@ -153,5 +164,4 @@ socket.on('search-history', (searches) => {
       app.history.push(items);
     }
   });
-  console.log('current history: ' + app.history);
 });
